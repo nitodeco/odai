@@ -51,6 +51,10 @@ app.whenReady().then(() => {
 
   ipcMain.handle('chat', async (_, message: string) => {
     console.log(`You said: ${message}`);
+
+    // Wait 2 seconds to simulate a bot response
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     return `You said: ${message}`;
   });
 

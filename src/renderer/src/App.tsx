@@ -17,7 +17,9 @@ const App: Component = () => {
 
   const onInputSubmit = async (message: string): Promise<void> => {
     setMessages([...messages(), { message, sender: 'user' }]);
+    setMessages([...messages(), { message: 'loading', sender: 'bot' }]);
     const response = await (window as any).api.chat(message);
+    setMessages([...messages().filter((message) => message.message !== 'loading')]);
     setMessages([...messages(), { message: response, sender: 'bot' }]);
   };
 
