@@ -1,30 +1,34 @@
-import type { Component } from 'solid-js'
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import type { Component } from 'solid-js';
+import { createSignal } from 'solid-js';
+
+import type Message from './types/message';
+
+import Chat from './components/Chat';
+import Input from './components/Input';
+import ChatMessage from './components/ChatMessage';
+import Header from './components/Header';
 
 const App: Component = () => {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const [messages, setMessages] = createSignal<Message[]>([]);
+
+  const newChat = (): void => {
+    setMessages([]);
+  };
+
+  const onInputSubmit = (message: string): void => {
+    setMessages([...messages(), { message, sender: 'user' }]);
+  };
 
   return (
     <>
-      <img alt="logo" class="logo" src={electronLogo} />
-      <div class="creator">Powered by electron-vite</div>
-      <div class="text">
-        Build an Electron app with <span class="solid">Solid</span>
-        &nbsp;and <span class="ts">TypeScript</span>
-      </div>
-      <p class="tip">Please try pressing <code>F12</code> to open the devTool</p>
-      <div class="actions">
-        <div class="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">Documentation</a>
-        </div>
-        <div class="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>Send IPC</a>
-        </div>
-      </div>
-      <Versions />
+      <main class="h-screen flex flex-col box-border bg-stone-800">
+        <Header onNewChat={newChat} />
+        <Chat>{messages().map((message) => () => <ChatMessage message={message} />)}</Chat>
+        <Input onSubmit={onInputSubmit} />
+      </main>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
