@@ -9,15 +9,16 @@ import ChatMessage from './components/ChatMessage';
 import Header from './components/Header';
 
 const App: Component = () => {
-  // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
   const [messages, setMessages] = createSignal<Message[]>([]);
 
   const newChat = (): void => {
     setMessages([]);
   };
 
-  const onInputSubmit = (message: string): void => {
+  const onInputSubmit = async (message: string): Promise<void> => {
     setMessages([...messages(), { message, sender: 'user' }]);
+    const response = await (window as any).api.chat(message);
+    setMessages([...messages(), { message: response, sender: 'bot' }]);
   };
 
   return (
