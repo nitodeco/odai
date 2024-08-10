@@ -1,8 +1,8 @@
 import { marked } from 'marked';
-import { sanitizeHtml } from 'dompurify';
+import DOMPurify from 'dompurify';
 
 const convertToMarkdown = (text: string): string => {
-  return sanitizeHtml(marked(text));
+  return DOMPurify.sanitize(marked(text));
 };
 
 export default convertToMarkdown;
