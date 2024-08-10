@@ -23,7 +23,7 @@ const Chat: Component<ChatProps> = (props) => {
 
   return (
     <div
-      class="flex flex-col w-full gap-2 flex-1 px-4 py-4 overflow-auto scroll-smooth scrollbar-thin scrollbar-track-rounded-full scrollbar-thumb-rounded-full"
+      class={`flex flex-col w-full gap-2 flex-1 px-4 py-4 overflow-auto scroll-smooth scrollbar-thin scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-track-transparent ${isOverflowing() ? 'pr-[-2rem]' : ''}`}
       ref={(scrollContainer) => {
         chatRef = scrollContainer;
       }}
